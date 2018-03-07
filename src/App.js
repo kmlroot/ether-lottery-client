@@ -1,19 +1,28 @@
 import React, { Component } from 'react'
 
 import web3 from './web3'
+import lottery from './lottery'
 
 import './App.css'
 
 class App extends Component {
-  render () {
-    web3.eth.getAccounts()
-      .then(console.log)
+  constructor (props) {
+    super(props)
 
+    this.state = { manager: '' }
+  }
+
+  async componentDidMount () {
+    const manager = await lottery.methods.manager().call()
+
+    this.setState({ manager })
+  }
+
+  render () {
     return (
-      <div className='App'>
-        <header className='App-header'>
-          <h1 className='App-title'>Ether Lottery Client</h1>
-        </header>
+      <div>
+        <h2> Lottery Contract </h2>
+        <p> This contract is managed by {this.state.manager} </p>
       </div>
     )
   }
